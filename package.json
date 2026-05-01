@@ -4,6 +4,8 @@
   "description": "Full-Stack Team Task Manager",
   "scripts": {
     "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm start --prefix backend",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "start:backend": "cd backend && npm start"

@@ -1,7 +1,9 @@
 const Database = require('better-sqlite3');
 const path = require('path');
 
-const db = new Database(path.join(__dirname, 'taskmanager.db'));
+const defaultDbPath = path.join(__dirname, 'taskmanager.db');
+const dbPath = process.env.SQLITE_PATH || defaultDbPath;
+const db = new Database(dbPath);
 
 // Enable WAL mode for better performance
 db.pragma('journal_mode = WAL');

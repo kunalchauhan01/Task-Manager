@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: teampilot-app
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SQLITE_PATH
+        value: /tmp/taskmanager.db

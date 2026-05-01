@@ -141,3 +141,58 @@ JWT_SECRET=your-long-random-secret
 ```
 
 The app runs without this file using defaults, but a custom `JWT_SECRET` is recommended.
+
+## Deploying on Railway
+
+You can deploy this app as a single Railway service so frontend and backend run on one domain.
+
+### 1) Create one Railway service
+
+- Create a new Railway service from this repo.
+- Keep the service root directory as project root.
+- Build command: `npm run build`
+- Start command: `npm start`
+
+This build process installs backend and frontend dependencies, builds the React app, and then the backend serves `frontend/dist`.
+
+### 2) Add environment variables
+
+- `JWT_SECRET` = a strong random secret
+- `SQLITE_PATH` = `/data/taskmanager.db` (recommended if you attach a Railway volume)
+- `CORS_ORIGIN` = your Railway app URL (optional for same-origin setup, but good to set)
+
+If you need persistent SQLite data, attach a Railway volume and mount it at `/data`.
+
+### 3) Verify single URL deployment
+
+- Open your Railway app URL.
+- Sign up and log in.
+- Confirm API health in browser: `https://<your-railway-app-domain>/api/health`
+
+## Deploying on Render (free)
+
+This project can also run on Render as a single web service (one link for frontend and backend).
+
+### Quick method (using `render.yaml`)
+
+1. Go to [Render Dashboard](https://dashboard.render.com/) and choose **New +** -> **Blueprint**.
+2. Connect your GitHub repository.
+3. Render detects `render.yaml` and creates one web service.
+4. After deployment, open the generated `onrender.com` URL.
+
+### Manual method (without Blueprint)
+
+1. Create a **Web Service** from your GitHub repo.
+2. Keep root directory as project root.
+3. Set:
+   - Build Command: `npm run build`
+   - Start Command: `npm start`
+4. Add environment variables:
+   - `JWT_SECRET` = any long random string
+   - `SQLITE_PATH` = `/tmp/taskmanager.db`
+5. Deploy and open your Render URL.
+
+### Important note for free plan
+
+SQLite data stored at `/tmp/taskmanager.db` is not persistent across redeploy/restart on free instances.  
+For persistent data, use a managed database service (for example Postgres) and migrate from SQLite.
